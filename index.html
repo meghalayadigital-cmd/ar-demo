@@ -2,7 +2,7 @@
 <html>
 <head>
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>AR Album - Dynamic Fullscreen</title>
+  <title>AR Album Fullscreen</title>
 
   <script src="https://aframe.io/releases/1.5.0/aframe.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/mind-ar@1.2.5/dist/mindar-image-aframe.prod.js"></script>
@@ -11,17 +11,16 @@
     body {
       margin: 0;
       overflow: hidden;
-      background: black;
     }
 
-    /* 🔥 Fullscreen Video */
+    /* Fullscreen Video Style */
     #fullscreenVideo {
       position: fixed;
       top: 0;
       left: 0;
       width: 100vw;
       height: 100vh;
-      object-fit: contain; /* Automatic ratio maintain */
+      object-fit: cover;
       background: black;
       display: none;
       z-index: 9999;
@@ -31,7 +30,7 @@
 
 <body>
 
-  <!-- Fullscreen Video Element -->
+  <!-- FULLSCREEN VIDEO -->
   <video
     id="fullscreenVideo"
     playsinline
@@ -46,24 +45,18 @@
     device-orientation-permission-ui="enabled: false"
   >
 
+    <!-- Assets -->
     <a-assets></a-assets>
 
-    <!-- 🔴 TARGET 0 – Apple -->
-    <a-entity
-      id="targetApple"
-      mindar-image-target="targetIndex: 0">
+    <!-- TARGET 0 – Apple -->
+    <a-entity mindar-image-target="targetIndex: 0" id="targetApple">
     </a-entity>
 
-    <!-- 🟢 TARGET 1 – Girl -->
-    <a-entity
-      id="targetGirl"
-      mindar-image-target="targetIndex: 1">
+    <!-- TARGET 1 – Girl -->
+    <a-entity mindar-image-target="targetIndex: 1" id="targetGirl">
     </a-entity>
 
-    <a-camera
-      position="0 0 0"
-      look-controls="enabled: false">
-    </a-camera>
+    <a-camera position="0 0 0" look-controls="enabled: false"></a-camera>
 
   </a-scene>
 
@@ -73,31 +66,31 @@
     const targetApple = document.querySelector("#targetApple");
     const targetGirl = document.querySelector("#targetGirl");
 
-    function playVideo(src) {
+    function playFullVideo(src) {
       fullscreenVideo.src = src;
       fullscreenVideo.style.display = "block";
-      fullscreenVideo.play().catch(() => {});
+      fullscreenVideo.play();
     }
 
-    function stopVideo() {
+    function stopFullVideo() {
       fullscreenVideo.pause();
       fullscreenVideo.currentTime = 0;
       fullscreenVideo.style.display = "none";
     }
 
-    // Apple
+    // Apple Target
     targetApple.addEventListener("targetFound", () => {
-      playVideo("./videos/Apple.mp4");
+      playFullVideo("./videos/Apple.mp4");
     });
 
-    targetApple.addEventListener("targetLost", stopVideo);
+    targetApple.addEventListener("targetLost", stopFullVideo);
 
-    // Girl
+    // Girl Target
     targetGirl.addEventListener("targetFound", () => {
-      playVideo("./videos/Girl.mp4");
+      playFullVideo("./videos/Girl.mp4");
     });
 
-    targetGirl.addEventListener("targetLost", stopVideo);
+    targetGirl.addEventListener("targetLost", stopFullVideo);
 
   </script>
 
